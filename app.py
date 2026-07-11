@@ -19,7 +19,14 @@ CLEAN_TRANSCRIPTS_FOLDER = "claude_cleaned_50"
 
 
 def get_db():
-    return psycopg2.connect(DATABASE_URL)
+    try:
+        return psycopg2.connect(
+            DATABASE_URL,
+            connect_timeout=10
+        )
+    except Exception as e:
+        print("DATABASE CONNECTION ERROR:", repr(e))
+        raise
 
 
 def init_db():
