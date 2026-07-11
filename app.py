@@ -285,7 +285,7 @@ def videos():
 
     for _, video in vids.items():
         title = video["title"]
-        review = get_review(video["video_id"])
+        review = reviews.get(video["video_id"])
 
         if search and search not in title.lower():
             continue
@@ -315,6 +315,29 @@ def review(video_id):
         return redirect("/")
 
     vids = load_videos()
+        conn = get_db()
+    cur = conn.cursor()
+
+    cur.execute("""
+        SELECT
+            video_id,
+            reviewer,
+            status,
+            comment,
+            reviewed_at,
+            time_taken
+        FROM reviews
+    """)
+
+    review_rows = cur.fetchall()
+
+    cur.close()
+    conn.close()
+
+    reviews = {}
+
+    for row in review_rows:
+        reviews[row[0]] = row
     selected = None
 
     for _, v in vids.items():
