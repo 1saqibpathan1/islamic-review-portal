@@ -8,14 +8,12 @@ app = Flask(__name__)
 app.secret_key = "change_this_secret"
 
 VIDEO_MAP_FILE = "video_id_map.json"
-def get_db():
-    return psycopg2.connect(
-        DATABASE_URL,
-        connect_timeout=10
-    )
+DATABASE_URL = os.environ.get("DATABASE_URL")
+CLEAN_TRANSCRIPTS_FOLDER = "claude_cleaned_50"
+
 print("DATABASE_URL =", DATABASE_URL)
 print("DATABASE_URL exists:", DATABASE_URL is not None)
-CLEAN_TRANSCRIPTS_FOLDER = "claude_cleaned_50"
+
 
 
 def get_db():
