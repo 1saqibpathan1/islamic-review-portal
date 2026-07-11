@@ -1,12 +1,3 @@
-from flask import Flask, request, redirect, session, render_template_string
-import psycopg2
-import json
-import os
-import time
-
-app = Flask(__name__)
-app.secret_key = "change_this_secret"
-
 VIDEO_MAP_FILE = "video_id_map.json"
 DATABASE_URL = os.environ.get("DATABASE_URL")
 CLEAN_TRANSCRIPTS_FOLDER = "claude_cleaned_50"
@@ -15,16 +6,17 @@ print("DATABASE_URL =", DATABASE_URL)
 print("DATABASE_URL exists:", DATABASE_URL is not None)
 
 
-
 def get_db():
-    try:
-        return psycopg2.connect(
-            DATABASE_URL,
-            connect_timeout=10
-        )
-    except Exception as e:
-        print("DATABASE CONNECTION ERROR:", repr(e))
-        raise
+    print("Attempting PostgreSQL connection...")
+
+    conn = psycopg2.connect(
+        DATABASE_URL,
+        connect_timeout=10
+    )
+
+    print("Connected successfully!")
+
+    return conn
 
 
 def init_db():
