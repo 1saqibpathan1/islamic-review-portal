@@ -1,3 +1,12 @@
+from flask import Flask, request, redirect, session, render_template_string
+import psycopg2
+import json
+import os
+import time
+
+app = Flask(__name__)
+app.secret_key = "change_this_secret"
+
 VIDEO_MAP_FILE = "video_id_map.json"
 DATABASE_URL = os.environ.get("DATABASE_URL")
 CLEAN_TRANSCRIPTS_FOLDER = "claude_cleaned_50"
